@@ -1,0 +1,76 @@
+
+TextureAtlas.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+3bamboos
+  rotate: false
+  xy: 450, 723
+  size: 34, 38
+  orig: 34, 38
+  offset: 0, 0
+  index: -1
+background_leaves
+  rotate: false
+  xy: 2, 139
+  size: 378, 672
+  orig: 378, 672
+  offset: 0, 0
+  index: -1
+bamboo
+  rotate: false
+  xy: 173, 103
+  size: 25, 34
+  orig: 25, 34
+  offset: 0, 0
+  index: -1
+flower
+  rotate: false
+  xy: 2, 2
+  size: 66, 60
+  orig: 66, 60
+  offset: 0, 0
+  index: -1
+flower2
+  rotate: false
+  xy: 382, 627
+  size: 56, 44
+  orig: 56, 44
+  offset: 0, 0
+  index: -1
+flower3
+  rotate: false
+  xy: 382, 673
+  size: 66, 88
+  orig: 66, 88
+  offset: 0, 0
+  index: -1
+flower4
+  rotate: false
+  xy: 944, 776
+  size: 66, 35
+  orig: 66, 35
+  offset: 0, 0
+  index: -1
+panda_roll
+  rotate: false
+  xy: 382, 763
+  size: 560, 48
+  orig: 560, 48
+  offset: 0, 0
+  index: -1
+wall1
+  rotate: false
+  xy: 86, 86
+  size: 85, 51
+  orig: 85, 51
+  offset: 0, 0
+  index: -1
+wall2
+  rotate: false
+  xy: 2, 64
+  size: 82, 73
+  orig: 82, 73
+  offset: 0, 0
+  index: -1
