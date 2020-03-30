@@ -1,5 +1,6 @@
 package com.mygdx.panda3.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,9 +9,11 @@ import com.mygdx.panda3.stages.GameStage;
 public class GameScreen implements Screen {
 
     private GameStage stage;
+    private Game parent;
 
-    public GameScreen(){
+    public GameScreen(Game aParent){
         stage = new GameStage();
+        parent = aParent;
     }
 
     @Override
