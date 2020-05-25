@@ -1,13 +1,80 @@
 package com.mygdx.panda3.utils;
 
+import com.badlogic.gdx.graphics.g2d.CpuSpriteBatch;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.panda3.actors.Obstacle;
+import com.mygdx.panda3.actors.SideBounds;
+import com.mygdx.panda3.box2d.ObstacleUserData;
+import com.mygdx.panda3.box2d.PandaUserData;
+import com.mygdx.panda3.box2d.SideBoundsUserData;
+import com.mygdx.panda3.enums.ObstacleType;
+import com.sun.org.apache.bcel.internal.generic.CPInstruction;
+
+import org.omg.CORBA.CODESET_INCOMPATIBLE;
 
 
 public class WorldUtils {
 
     public static World createWorld(){
         return new World(Constants.WORLD_GRAVITY, true);
+    }
+
+    public static Body createPandaBody(World world){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(Constants.PANDA_POSITION);
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(Constants.PANDA_WIDTH / 2f, Constants.PANDA_HEIGHT / 2f);
+        Body body = world.createBody(bodyDef);
+        body.createFixture(shape, Constants.PANDA_DENSITY);
+        body.resetMassData();
+        body.setUserData(new PandaUserData(Constants.PANDA_WIDTH, Constants.PANDA_HEIGHT));
+        shape.dispose();
+        return body;
+    }
+
+    public static Body createObstacle(World world){
+        ObstacleType obstacleType = RandomUtils.getRandomObstacleType();
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
+        bodyDef.position.set(Constants.ROW_POSITION);
+        Body body = world.createBody(bodyDef);
+        for(float[] vertices : obstacleType.getShapeDefinition()){
+            PolygonShape shape = new PolygonShape();
+            shape.set(vertices);
+            body.createFixture(shape, Constants.ROW_DENSITY);
+            shape.dispose();
+        }
+        ObstacleUserData userData = new ObstacleUserData(Constants.ROW_WIDTH, Constants.ROW_HEIGHT, obstacleType.getTextureName());
+        body.setUserData(userData);
+        return body;
+    }
+
+    public static Body createSideBoundsBody(World world){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(Constants.APP_WIDTH / 2f, Constants.APP_HEIGHT / 2f);
+
+        EdgeShape leftBoundShape = new EdgeShape();
+        EdgeShape rightBoundShape = new EdgeShape();
+        leftBoundShape.set( -Constants.APP_WIDTH / 2f + Constants.LEAVES_WIDTH, -Constants.APP_HEIGHT / 2f,
+                            -Constants.APP_WIDTH / 2f + Constants.LEAVES_WIDTH, Constants.APP_HEIGHT / 2f);
+        rightBoundShape.set(Constants.APP_WIDTH / 2f - Constants.LEAVES_WIDTH, -Constants.APP_HEIGHT / 2f,
+                            Constants.APP_WIDTH / 2f - Constants.LEAVES_WIDTH, Constants.APP_HEIGHT / 2f);
+
+        Body body = world.createBody(bodyDef);
+        body.createFixture(leftBoundShape, 1f);
+        body.createFixture(rightBoundShape, 1f);
+        body.setUserData(new SideBoundsUserData(Constants.APP_WIDTH, Constants.APP_HEIGHT));
+
+        leftBoundShape.dispose();
+        rightBoundShape.dispose();
+        return body;
     }
 
 }

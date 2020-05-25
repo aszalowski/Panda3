@@ -1,36 +1,79 @@
 package com.mygdx.panda3.stages;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.panda3.Panda3;
+import com.mygdx.panda3.actors.Obstacle;
+import com.mygdx.panda3.actors.Panda;
+import com.mygdx.panda3.actors.SideBounds;
+import com.mygdx.panda3.box2d.ObstacleUserData;
+import com.mygdx.panda3.utils.BodyUtils;
 import com.mygdx.panda3.utils.WorldUtils;
 import com.mygdx.panda3.utils.Constants;
 
+import java.util.Vector;
+
 import javax.swing.Spring;
 
-public class GameStage extends Stage {
+public class GameStage extends Stage implements ContactListener {
     private World world;
-    private SpriteBatch batch;
-    private Texture img;
+    private Game game;
 
-    private final float TIME_STEP = 1 / 300f;
+    private TextureAtlas textureAtlas;
+
     private float accumulator = 0f;
 
     private OrthographicCamera camera;
     private Box2DDebugRenderer renderer;
 
-    public GameStage(){
-        world = WorldUtils.createWorld();
-        renderer = new Box2DDebugRenderer();
+    private Rectangle screenRightSide;
+    private Rectangle screenLeftSide;
 
-        batch = new SpriteBatch();
-        img = new Texture("background_leaves.png");
+    private Vector3 touchPoint;
+
+    private Panda panda;
+    private SideBounds sideBounds;
+
+    public GameStage(Viewport viewport, AssetManager assets){
+        super(viewport);
+        this.textureAtlas = assets.get(Constants.TEXTURE_ATLAS_FILENAME, TextureAtlas.class);
+        float screenRatio = Gdx.graphics.getWidth() / (float) Constants.APP_WIDTH;
+
         setupCamera();
+        setupWorld();
+        setupTouchAreas();
+
+        renderer = new Box2DDebugRenderer();
+    }
+
+    private void setupWorld(){
+        world = WorldUtils.createWorld();
+        world.setContactListener(this);
+        setupPanda();
+        setupBounds();
+        createObstacle();
     }
 
     private void setupCamera(){
@@ -38,30 +81,120 @@ public class GameStage extends Stage {
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);
         camera.update();
     }
+     private void setupPanda(){
+         panda = new Panda(WorldUtils.createPandaBody(world), textureAtlas.findRegion("panda_roll"));
+         this.addActor(panda);
+     }
+
+     private void setupBounds(){
+        sideBounds = new SideBounds(WorldUtils.createSideBoundsBody(world), textureAtlas.findRegion("background_leaves"));
+        this.addActor(sideBounds);
+     }
+
+     private void setupTouchAreas(){
+        touchPoint = new Vector3();
+        screenLeftSide = new Rectangle(0, 0,
+                                getCamera().viewportWidth / 2, getCamera().viewportHeight);
+        screenRightSide = new Rectangle(getCamera().viewportWidth / 2, 0,
+                                    getCamera().viewportHeight / 2, getCamera().viewportHeight);
+        Gdx.input.setInputProcessor(this);
+     }
 
     @Override
     public void act(float delta){
         super.act(delta);
 
+        Array<Body> bodies = new Array<Body>(world.getBodyCount());
+        world.getBodies(bodies);
+
+        for(Body body: bodies){
+            update(body);
+        }
+
         // Fixed interval
         accumulator += delta;
 
         while(accumulator >= delta){
-            world.step(TIME_STEP, 6, 2);
-            accumulator -= TIME_STEP;
+            world.step(Constants.TIME_STEP, 6, 2);
+            accumulator -= Constants.TIME_STEP;
         }
 
         // Here interpolation would happen if we implemented one
     }
 
+    private void update(Body body){
+        if(!BodyUtils.bodyInBounds(body)){
+            world.destroyBody(body);
+        }
+    }
+
+    private void createObstacle(){
+        Body obstacleBody = WorldUtils.createObstacle(world);
+        ObstacleUserData obstacleUserData = (ObstacleUserData) obstacleBody.getUserData();
+        TextureRegion obstacleTextureRegion = textureAtlas.findRegion(obstacleUserData.getTextureName());
+        this.addActor(new Obstacle(obstacleBody, obstacleTextureRegion));
+    }
+
     @Override
     public void draw(){
         super.draw();
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        batch.draw(img, 0, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
-        batch.end();
         renderer.render(world, camera.combined);
     }
 
+    @Override
+    public boolean touchDown(int x, int y, int pointer, int button){
+        translateScreenToWorldCoordinates(x, y);
+
+        if(rightSideTouched(touchPoint.x, touchPoint.y)){
+            panda.moveRight();
+        }
+        else if(leftSideTouched(touchPoint.x, touchPoint.y)){
+            panda.moveLeft();
+        }
+
+        return super.touchDown(x, y, pointer, button);
+    }
+
+    @Override
+    public boolean touchUp(int x, int y, int pointer, int button){
+        panda.stop();
+
+        return super.touchUp(x, y, pointer, button);
+    }
+
+    private boolean rightSideTouched(float x, float y){
+        return screenRightSide.contains(x, y);
+    }
+
+    private boolean leftSideTouched(float x, float y){
+        return screenLeftSide.contains(x, y);
+    }
+
+
+    private void translateScreenToWorldCoordinates(int x, int y){
+        getCamera().unproject(touchPoint.set(x, y, 0));
+    }
+
+    @Override
+    public void beginContact(Contact contact){
+    }
+    @Override
+    public void endContact(Contact contact) {
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+        Body a = contact.getFixtureA().getBody();
+        Body b = contact.getFixtureB().getBody();
+
+        if ((BodyUtils.bodyIsPanda(a) && BodyUtils.bodyIsObstacle(b)) ||
+                (BodyUtils.bodyIsObstacle(a) && BodyUtils.bodyIsPanda(b))) {
+            contact.setEnabled(false);
+            panda.hit();
+        }
+    }
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
+    }
 }
