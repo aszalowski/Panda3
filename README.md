@@ -33,4 +33,10 @@ This is a simple single-player game. It is lightly based off of a popular title 
 ### Implementation details
 The main framework used is Java's libGDX. This means the code is relying heavly on OOP with elemets of event-driven architecture for handling user events and some interior activities.
 
+## Progress
+Basic structure of the project is now almost done. Next steps are:
+- adding animation
+- adding more obstacle types
+- finishing up main menu
+- counting score
 
