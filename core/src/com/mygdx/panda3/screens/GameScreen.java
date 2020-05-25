@@ -3,17 +3,22 @@ package com.mygdx.panda3.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.panda3.stages.GameStage;
+import com.mygdx.panda3.utils.Constants;
 
 public class GameScreen implements Screen {
 
     private GameStage stage;
-    private Game parent;
+    private Game game;
+    private StretchViewport viewport;
 
-    public GameScreen(Game aParent){
-        stage = new GameStage();
-        parent = aParent;
+    public GameScreen(Game aGame, AssetManager assets){
+        viewport = new StretchViewport(Constants.APP_WIDTH, Constants.APP_HEIGHT);
+        stage = new GameStage(viewport, assets);
+        game = aGame;
     }
 
     @Override
