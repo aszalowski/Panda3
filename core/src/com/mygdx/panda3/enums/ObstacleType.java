@@ -4,7 +4,12 @@ import com.mygdx.panda3.utils.Constants;
 
 public enum ObstacleType {
 
-    SMALL_WINES(Constants.WIDE_WINES_TEXTURE_NAME, Constants.WIDE_WINES_SHAPES);
+    OBSTACLE1(Constants.OBSTACLE2_TEXTURE_NAME, Constants.OBSTACLE3_VERTICES),
+    OBSTACLE2(Constants.OBSTACLE2_TEXTURE_NAME, Constants.OBSTACLE2_VERTICES),
+    OBSTACLE3(Constants.OBSTACLE3_TEXTURE_NAME, Constants.OBSTACLE3_VERTICES),
+    OBSTACLE4(Constants.OBSTACLE4_TEXTURE_NAME, Constants.OBSTACLE4_VERTICES),
+    OBSTACLE5(Constants.OBSTACLE5_TEXTURE_NAME, Constants.OBSTACLE5_VERTICES),
+    OBSTACLE6(Constants.OBSTACLE6_TEXTURE_NAME, Constants.OBSTACLE6_VERTICES);
 
     private String textureName;
     private float[][] shapeDefinition;
