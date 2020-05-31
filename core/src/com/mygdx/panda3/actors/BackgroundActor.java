@@ -8,14 +8,15 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.panda3.box2d.SideBoundsUserData;
 import com.mygdx.panda3.utils.Constants;
 
-public class SideBounds extends GameActor {
+public class BackgroundActor extends GameActor {
     private Vector2 texturePositionBottom;
-    private float speed = Constants.BACKGROUND_LEAVES_SPEED;
+    private float speed;
 
-    public SideBounds(Body body, TextureRegion texture){
+    public BackgroundActor(Body body, TextureRegion texture, float speed){
         super(body, texture);
         texturePosition = new Vector2(0 , 0);
         texturePositionBottom = new Vector2(0,  - Constants.APP_HEIGHT);
+        this.speed = speed;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class SideBounds extends GameActor {
 
     private void resetBounds() {
         texturePosition = texturePositionBottom;
-        texturePositionBottom = new Vector2(0,  - Constants.APP_HEIGHT);
+        texturePositionBottom = new Vector2(0,  texturePositionBottom.y - Constants.APP_HEIGHT);
     }
 
 }

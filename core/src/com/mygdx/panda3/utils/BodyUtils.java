@@ -1,5 +1,6 @@
 package com.mygdx.panda3.utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.panda3.box2d.UserData;
 import com.mygdx.panda3.enums.UserDataType;
@@ -12,8 +13,7 @@ public class BodyUtils{
             case PANDA:
                 return true;
             case OBSTACLE:
-//                return body.getPosition().y - userData.getHeight() / 2 > Constants.APP_HEIGHT;
-                return true;
+                return body.getPosition().y - userData.getHeight() / 2 < Constants.APP_HEIGHT;
         }
 
         return true;

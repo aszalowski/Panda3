@@ -6,70 +6,77 @@ filter: Nearest,Nearest
 repeat: none
 3bamboos
   rotate: false
-  xy: 944, 900
+  xy: 762, 950
   size: 34, 38
   orig: 34, 38
   offset: 0, 0
   index: -1
+background
+  rotate: false
+  xy: 382, 316
+  size: 378, 672
+  orig: 378, 672
+  offset: 0, 0
+  index: -1
 background_leaves
   rotate: false
-  xy: 2, 266
+  xy: 2, 316
   size: 378, 672
   orig: 378, 672
   offset: 0, 0
   index: -1
 bamboo
   rotate: false
-  xy: 318, 230
+  xy: 564, 280
   size: 25, 34
   orig: 25, 34
   offset: 0, 0
   index: -1
 obstacle1
   rotate: false
-  xy: 382, 626
-  size: 314, 86
-  orig: 314, 86
+  xy: 358, 2
+  size: 354, 86
+  orig: 354, 86
   offset: 0, 0
   index: -1
 obstacle2
   rotate: false
   xy: 2, 178
-  size: 314, 86
-  orig: 314, 86
+  size: 354, 86
+  orig: 354, 86
   offset: 0, 0
   index: -1
 obstacle3
   rotate: false
-  xy: 382, 802
-  size: 314, 86
-  orig: 314, 86
+  xy: 2, 90
+  size: 354, 86
+  orig: 354, 86
   offset: 0, 0
   index: -1
 obstacle4
   rotate: false
-  xy: 2, 90
-  size: 314, 86
-  orig: 314, 86
+  xy: 2, 2
+  size: 354, 86
+  orig: 354, 86
   offset: 0, 0
   index: -1
 obstacle5
   rotate: false
-  xy: 382, 714
-  size: 314, 86
-  orig: 314, 86
+  xy: 358, 178
+  size: 354, 86
+  orig: 354, 86
   offset: 0, 0
   index: -1
 obstacle6
   rotate: false
-  xy: 2, 2
-  size: 314, 86
-  orig: 314, 86
+  xy: 358, 90
+  size: 354, 86
+  orig: 354, 86
   offset: 0, 0
   index: -1
 panda_roll
   rotate: false
-  xy: 382, 890
+  xy: 2, 266
   size: 560, 48
   orig: 560, 48
   offset: 0, 0

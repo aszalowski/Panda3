@@ -1,5 +1,6 @@
 package com.mygdx.panda3.actors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -22,6 +23,7 @@ public abstract class GameActor extends Actor {
         this.texture = texture;
         this.userData = (UserData) body.getUserData();
         texturePosition = new Vector2();
+        updateTexturePosition();
     }
 
     public abstract UserData getUserData();
@@ -29,7 +31,7 @@ public abstract class GameActor extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (body.getUserData() == null) {
+        if (body.getUserData() == null || !body.isActive()) {
             remove();
         }
         else{

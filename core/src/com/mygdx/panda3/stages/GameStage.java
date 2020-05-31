@@ -4,38 +4,29 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.panda3.Panda3;
 import com.mygdx.panda3.actors.Obstacle;
 import com.mygdx.panda3.actors.Panda;
-import com.mygdx.panda3.actors.SideBounds;
+import com.mygdx.panda3.actors.BackgroundActor;
 import com.mygdx.panda3.box2d.ObstacleUserData;
 import com.mygdx.panda3.utils.BodyUtils;
 import com.mygdx.panda3.utils.WorldUtils;
 import com.mygdx.panda3.utils.Constants;
-
-import java.util.Vector;
-
-import javax.swing.Spring;
 
 public class GameStage extends Stage implements ContactListener {
     private World world;
@@ -54,7 +45,10 @@ public class GameStage extends Stage implements ContactListener {
     private Vector3 touchPoint;
 
     private Panda panda;
-    private SideBounds sideBounds;
+    private BackgroundActor sideBounds;
+    private BackgroundActor background;
+
+    private Group obstacles;
 
     public GameStage(Viewport viewport, AssetManager assets){
         super(viewport);
@@ -71,7 +65,11 @@ public class GameStage extends Stage implements ContactListener {
     private void setupWorld(){
         world = WorldUtils.createWorld();
         world.setContactListener(this);
+
+        setupBackground();
+        obstacles = new Group();
         setupPanda();
+        this.addActor(obstacles);
         setupBounds();
         createObstacle();
     }
@@ -87,8 +85,13 @@ public class GameStage extends Stage implements ContactListener {
      }
 
      private void setupBounds(){
-        sideBounds = new SideBounds(WorldUtils.createSideBoundsBody(world), textureAtlas.findRegion("background_leaves"));
+        sideBounds = new BackgroundActor(WorldUtils.createSideBoundsBody(world), textureAtlas.findRegion("background_leaves"), Constants.BACKGROUND_LEAVES_SPEED);
         this.addActor(sideBounds);
+     }
+
+     private void setupBackground(){
+        background = new BackgroundActor(WorldUtils.createSideBoundsBody(world), textureAtlas.findRegion("background"), Constants.BACKGROUND_SPEED);
+        this.addActor(background);
      }
 
      private void setupTouchAreas(){
@@ -123,7 +126,10 @@ public class GameStage extends Stage implements ContactListener {
     }
 
     private void update(Body body){
+//        Gdx.app.log("DEBUG", "update body" + this.getActors().toString());
         if(!BodyUtils.bodyInBounds(body)){
+            createObstacle();
+            body.setUserData(null);
             world.destroyBody(body);
         }
     }
@@ -132,7 +138,7 @@ public class GameStage extends Stage implements ContactListener {
         Body obstacleBody = WorldUtils.createObstacle(world);
         ObstacleUserData obstacleUserData = (ObstacleUserData) obstacleBody.getUserData();
         TextureRegion obstacleTextureRegion = textureAtlas.findRegion(obstacleUserData.getTextureName());
-        this.addActor(new Obstacle(obstacleBody, obstacleTextureRegion));
+        obstacles.addActor(new Obstacle(obstacleBody, obstacleTextureRegion));
     }
 
     @Override

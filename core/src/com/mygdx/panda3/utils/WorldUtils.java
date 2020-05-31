@@ -1,21 +1,14 @@
 package com.mygdx.panda3.utils;
 
-import com.badlogic.gdx.graphics.g2d.CpuSpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.math.Vector2;
-import com.mygdx.panda3.actors.Obstacle;
-import com.mygdx.panda3.actors.SideBounds;
 import com.mygdx.panda3.box2d.ObstacleUserData;
 import com.mygdx.panda3.box2d.PandaUserData;
 import com.mygdx.panda3.box2d.SideBoundsUserData;
 import com.mygdx.panda3.enums.ObstacleType;
-import com.sun.org.apache.bcel.internal.generic.CPInstruction;
-
-import org.omg.CORBA.CODESET_INCOMPATIBLE;
 
 
 public class WorldUtils {
