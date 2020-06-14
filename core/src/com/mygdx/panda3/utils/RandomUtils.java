@@ -3,8 +3,6 @@ package com.mygdx.panda3.utils;
 import com.mygdx.panda3.enums.ObstacleType;
 import com.mygdx.panda3.enums.PowerUpType;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class RandomUtils {

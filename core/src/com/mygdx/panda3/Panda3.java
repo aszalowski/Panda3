@@ -29,6 +29,11 @@ public class Panda3 extends Game {
 	@Override
 	public void create () {
 		manager = new AssetManager();
+		loadAssets();
+		setScreen(new MainMenuScreen(this, manager));
+	}
+
+	public void loadAssets(){
 		FileHandleResolver resolver = new InternalFileHandleResolver();
 		manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
 		manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
@@ -49,7 +54,6 @@ public class Panda3 extends Game {
 
 
 		manager.finishLoading();
-		setScreen(new MainMenuScreen(this, manager));
 	}
 
 }

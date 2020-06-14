@@ -2,11 +2,9 @@ package com.mygdx.panda3.actors;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.panda3.box2d.ObstacleUserData;
-import com.mygdx.panda3.utils.Constants;
 
 public class Obstacle extends Row {
     public Obstacle(Body body, TextureRegion texture){

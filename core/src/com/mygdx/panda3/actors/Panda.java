@@ -1,20 +1,16 @@
 package com.mygdx.panda3.actors;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.panda3.box2d.PandaUserData;
 import com.mygdx.panda3.enums.MovingState;
 import com.mygdx.panda3.utils.Constants;
 import com.mygdx.panda3.utils.TextureUtils;
 
-import java.util.Spliterators;
 
-import javax.xml.soap.Text;
 
 public class Panda extends GameActor {
     private int invTime;
