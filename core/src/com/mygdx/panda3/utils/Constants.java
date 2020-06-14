@@ -37,6 +37,7 @@ public class Constants {
     public static final String PANDA_TEXTURE_NAME = "panda_roll";
     public static final int PANDA_TEXTURE_HEIGHT = 48;
     public static final int PANDA_TEXTURE_WIDTH = 56;
+    public static final float[] PANDA_VERTICES = {-14, -21, -23, -9, -11, 16, 10, 16, 20, 4, 20, -12, 10, -2};
     public static final int PANDA_ROLL_FRAME_START = 3;
     public static final int PANDA_ROLL_FRAME_END = 7;
     public static final float PANDA_ROLL_FRAME_TIME = 0.12f;
@@ -45,7 +46,7 @@ public class Constants {
     public static final float FIRE_FRAME_TIME = 0.15f;
     public static final String FIRE_BASE_TEXTURE_NAME = "fire";
 
-    public static final float ROW_DENSITY = 0f;//PANDA_DENSITY;
+    public static final float ROW_DENSITY = 0f;
     public static final int ROW_HEIGHT = 86;
     public static final int ROW_WIDTH = APP_WIDTH - LEAVES_WIDTH*2;
     public static final Vector2 ROW_POSITION = new Vector2(APP_WIDTH / 2f, -ROW_HEIGHT);
@@ -63,7 +64,7 @@ public class Constants {
     public static final String OBSTACLE5_TEXTURE_NAME = "obstacle5";
     public static final float[][] OBSTACLE5_VERTICES = {{-177, -43, -133, -42, -122, -26, -120, 6, -133, 41, -177, 40}, {-18, -42, -34, -14, -25, -3, 15, -1, 18, -20, 9, -42}, {157, -42, 117, -16, 120, 42, 127, 42, 175, 8}};
     public static final String OBSTACLE6_TEXTURE_NAME = "obstacle6";
-    public static final float[][] OBSTACLE6_VERTICES = {{-24, -42, -63, -42, -61, 42, -3, 10, 53, 42, 63, 3, 57, -15, 19, -43}};
+    public static final float[][] OBSTACLE6_VERTICES = {{-24, -42, -63, -22, -61, 42, -3, 10, 53, 42, 63, 3, 57, -15, 19, -43}};
 
     public static final float GAME_STAGE_UI_HEIGHT = 48;
 

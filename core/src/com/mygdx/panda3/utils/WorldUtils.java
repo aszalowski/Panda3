@@ -24,7 +24,7 @@ public class WorldUtils {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(Constants.PANDA_POSITION);
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(Constants.PANDA_WIDTH / 2f, Constants.PANDA_HEIGHT / 2f);
+        shape.set(Constants.PANDA_VERTICES);
         Body body = world.createBody(bodyDef);
         body.createFixture(shape, Constants.PANDA_DENSITY);
         body.resetMassData();
