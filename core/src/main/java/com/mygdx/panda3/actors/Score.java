@@ -63,6 +63,10 @@ public class Score extends Actor {
         isPaused = true;
     }
 
+    public boolean isPaused(){
+        return isPaused;
+    }
+
     public void start(){
         isPaused = false;
     }
