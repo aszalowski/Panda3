@@ -31,21 +31,19 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show(){
-        Table table = new Table();
+        Skin skin = assets.get(Constants.UI_SKIN_NAME);
+        Table table = new Table(skin);
 
         table.setFillParent(true);
         table.setDebug(true);
+        table.setBackground("list");
 
         stage.addActor(table);
 
-        // TODO Custom skins
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
         TextButton playButton = new TextButton("PLAY", skin);
-        playButton.getLabel().setFontScale(1.5f);
 
 
-        table.add(playButton).fillX().uniformX().height(50).width(100);
-        table.row();
+        table.add(playButton).fillX().uniformX().height(100).width(200);
 
         // TODO Implement changing screens in Game class
         playButton.addListener(new ChangeListener() {

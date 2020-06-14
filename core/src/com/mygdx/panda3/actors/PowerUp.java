@@ -2,21 +2,19 @@ package com.mygdx.panda3.actors;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.mygdx.panda3.box2d.ObstacleUserData;
-import com.mygdx.panda3.utils.Constants;
+import com.mygdx.panda3.box2d.PowerUpUserData;
 
-public class Obstacle extends Row {
-    public Obstacle(Body body, TextureRegion texture){
+public class PowerUp extends Row {
+    public PowerUp(Body body, TextureRegion texture){
         super(body, texture);
 //        setColor(Color.BLUE.cpy().lerp(Color.WHITE, 0.5f));
     }
 
     @Override
-    public ObstacleUserData getUserData() {
-        return (ObstacleUserData) userData;
+    public PowerUpUserData getUserData() {
+        return (PowerUpUserData) userData;
     }
 
     @Override

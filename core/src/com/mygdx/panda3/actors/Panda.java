@@ -1,6 +1,7 @@
 package com.mygdx.panda3.actors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,26 +10,31 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.panda3.box2d.PandaUserData;
 import com.mygdx.panda3.enums.MovingState;
 import com.mygdx.panda3.utils.Constants;
+import com.mygdx.panda3.utils.TextureUtils;
+
+import java.util.Spliterators;
 
 import javax.xml.soap.Text;
 
 public class Panda extends GameActor {
-    private boolean hit;
+    private int invTime;
+    private boolean isInv;
+    private boolean isOnFire;
+    private float blinkingTimeCounter = 0;
+    private boolean shouldBlink = false;
     private MovingState movingState;
     private Animation<TextureRegion> rollingAnimation;
+    private Animation<TextureRegion> fireAnimation;
     private float stateTime;
 
-    public Panda(Body body, TextureRegion texture){
-        super(body, texture);
-        TextureRegion[] rollingFrames = new TextureRegion[Constants.PANDA_ROLL_FRAME_END - Constants.PANDA_ROLL_FRAME_START + 1];
-        for(int i = 0; i < Constants.PANDA_ROLL_FRAME_END - Constants.PANDA_ROLL_FRAME_START + 1; i++){
-            int frame = i + Constants.PANDA_ROLL_FRAME_START;
-            int x = frame*Constants.PANDA_TEXTURE_WIDTH;
-            rollingFrames[i] = new TextureRegion(texture, x, 0, Constants.PANDA_TEXTURE_WIDTH, Constants.PANDA_TEXTURE_HEIGHT);
-        }
-        rollingAnimation = new Animation<TextureRegion>(Constants.PANDA_ROLL_FRAME_TIME, rollingFrames);
-        stateTime = 0;
+    public Panda(Body body, TextureRegion pandaTexture, Animation<TextureRegion> fireAnimation){
+        super(body, pandaTexture);
+        rollingAnimation = TextureUtils.createRollingAnimation(pandaTexture);
+        this.fireAnimation = fireAnimation;
 
+        stateTime = 0;
+        isOnFire = false;
+        isInv = false;
 
     }
 
@@ -40,9 +46,52 @@ public class Panda extends GameActor {
     @Override
     public void draw(Batch batch, float parentAlpha){
         super.draw(batch, parentAlpha);
-        stateTime += Gdx.graphics.getDeltaTime();
         updateTexturePosition();
-        batch.draw(rollingAnimation.getKeyFrame(stateTime, true), texturePosition.x, texturePosition.y);
+
+        if(isOnFire){
+            batch.draw(fireAnimation.getKeyFrame(stateTime, true), texturePosition.x + 3, texturePosition.y + 10);
+        }
+
+        batch.setColor(getColor());
+        if(shouldBlink && invTime > 0){
+            Color originalColor = batch.getColor();
+            batch.setColor(originalColor.r, originalColor.g, originalColor.b, 0.2f);
+            batch.draw(rollingAnimation.getKeyFrame(stateTime, true), texturePosition.x, texturePosition.y);
+            handleBlinkReset();
+        }
+        else if(!shouldBlink && invTime > 0){
+            batch.draw(rollingAnimation.getKeyFrame(stateTime, true), texturePosition.x, texturePosition.y);
+            handleBlinkReset();
+        }
+        else{
+            batch.draw(rollingAnimation.getKeyFrame(stateTime, true), texturePosition.x, texturePosition.y);
+        }
+        batch.setColor(Color.WHITE);
+
+    }
+
+    private void handleBlinkReset(){
+        if(blinkingTimeCounter > Constants.PANDA_BLINK_TIME){
+            blinkingTimeCounter = 0;
+            shouldBlink = !shouldBlink;
+        }
+    }
+
+    private void startBlinking(){
+        shouldBlink = true;
+        blinkingTimeCounter = 0;
+    }
+
+    @Override
+    public void act(float delta){
+        super.act(delta);
+
+        stateTime += delta;
+
+        if(invTime > 0){
+            invTime -= delta;
+            blinkingTimeCounter += delta;
+        }
     }
 
     private void updateTexturePosition(){
@@ -70,12 +119,22 @@ public class Panda extends GameActor {
     }
 
     public void hit(){
-        Gdx.app.log("DEBUG", "Panda hit.");
-        hit = true;
+        if(invTime == 0){
+            invTime = Constants.PANDA_INV_TIME;
+            startBlinking();
+        }
     }
 
-    public boolean isHit(){
-        return hit;
+    public boolean isInvulnerable(){
+        return invTime > 0 || isInv;
+    }
+
+    public void setInv(boolean inv){
+        this.isInv = inv;
+    }
+
+    public void setOnFire(boolean onFire){
+        this.isOnFire = onFire;
     }
 
 }

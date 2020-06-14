@@ -12,11 +12,17 @@ public class BodyUtils{
         switch (userData.getUserDataType()) {
             case PANDA:
                 return true;
+            case POWERUP:
             case OBSTACLE:
                 return body.getPosition().y - userData.getHeight() / 2 < Constants.APP_HEIGHT;
         }
 
         return true;
+    }
+
+    public static boolean bodyIsPowerUp(Body body){
+        UserData userData = (UserData) body.getUserData();
+        return userData != null && userData.getUserDataType() == UserDataType.POWERUP;
     }
 
     public static boolean bodyIsObstacle(Body body){

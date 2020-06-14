@@ -1,83 +1,160 @@
 
 TextureAtlas.png
-size: 1024,1024
+size: 2048,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 3bamboos
   rotate: false
-  xy: 762, 950
+  xy: 564, 280
   size: 34, 38
   orig: 34, 38
   offset: 0, 0
   index: -1
+PepperRed
+  rotate: false
+  xy: 358, 160
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 background
   rotate: false
-  xy: 382, 316
+  xy: 382, 320
   size: 378, 672
   orig: 378, 672
   offset: 0, 0
   index: -1
 background_leaves
   rotate: false
-  xy: 2, 316
+  xy: 2, 320
   size: 378, 672
   orig: 378, 672
   offset: 0, 0
   index: -1
 bamboo
   rotate: false
-  xy: 564, 280
+  xy: 1830, 958
   size: 25, 34
   orig: 25, 34
   offset: 0, 0
   index: -1
+fire0
+  rotate: false
+  xy: 2, 2
+  size: 45, 90
+  orig: 45, 90
+  offset: 0, 0
+  index: -1
+fire1
+  rotate: false
+  xy: 762, 638
+  size: 45, 90
+  orig: 45, 90
+  offset: 0, 0
+  index: -1
+fire2
+  rotate: false
+  xy: 405, 178
+  size: 45, 90
+  orig: 45, 90
+  offset: 0, 0
+  index: -1
+fire3
+  rotate: false
+  xy: 49, 2
+  size: 45, 90
+  orig: 45, 90
+  offset: 0, 0
+  index: -1
+fire4
+  rotate: false
+  xy: 762, 546
+  size: 45, 90
+  orig: 45, 90
+  offset: 0, 0
+  index: -1
+fire5
+  rotate: false
+  xy: 358, 178
+  size: 45, 90
+  orig: 45, 90
+  offset: 0, 0
+  index: -1
+heart
+  rotate: false
+  xy: 1118, 784
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+inv1
+  rotate: false
+  xy: 1118, 818
+  size: 354, 86
+  orig: 354, 86
+  offset: 0, 0
+  index: -1
 obstacle1
   rotate: false
-  xy: 358, 2
+  xy: 1474, 906
   size: 354, 86
   orig: 354, 86
   offset: 0, 0
   index: -1
 obstacle2
   rotate: false
-  xy: 2, 178
+  xy: 762, 906
   size: 354, 86
   orig: 354, 86
   offset: 0, 0
   index: -1
 obstacle3
   rotate: false
-  xy: 2, 90
+  xy: 2, 182
   size: 354, 86
   orig: 354, 86
   offset: 0, 0
   index: -1
 obstacle4
   rotate: false
-  xy: 2, 2
+  xy: 762, 818
   size: 354, 86
   orig: 354, 86
   offset: 0, 0
   index: -1
 obstacle5
   rotate: false
-  xy: 358, 178
+  xy: 1118, 906
   size: 354, 86
   orig: 354, 86
   offset: 0, 0
   index: -1
 obstacle6
   rotate: false
-  xy: 358, 90
+  xy: 2, 94
   size: 354, 86
   orig: 354, 86
   offset: 0, 0
   index: -1
 panda_roll
   rotate: false
-  xy: 2, 266
+  xy: 2, 270
   size: 560, 48
   orig: 560, 48
+  offset: 0, 0
+  index: -1
+pause
+  rotate: false
+  xy: 1474, 872
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+speed1
+  rotate: false
+  xy: 762, 730
+  size: 354, 86
+  orig: 354, 86
   offset: 0, 0
   index: -1

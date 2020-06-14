@@ -7,8 +7,10 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.panda3.box2d.ObstacleUserData;
 import com.mygdx.panda3.box2d.PandaUserData;
+import com.mygdx.panda3.box2d.PowerUpUserData;
 import com.mygdx.panda3.box2d.SideBoundsUserData;
 import com.mygdx.panda3.enums.ObstacleType;
+import com.mygdx.panda3.enums.PowerUpType;
 
 
 public class WorldUtils {
@@ -46,6 +48,24 @@ public class WorldUtils {
         ObstacleUserData userData = new ObstacleUserData(Constants.ROW_WIDTH, Constants.ROW_HEIGHT, obstacleType.getTextureName());
         body.setUserData(userData);
         return body;
+    }
+
+    public static Body createPowerUp(World world){
+        PowerUpType powerUpType = RandomUtils.getRandomPowerUpType();
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
+        bodyDef.position.set(Constants.ROW_POSITION);
+        Body body = world.createBody(bodyDef);
+        for(float[] vertices : powerUpType.getShapeDefinition()){
+            PolygonShape shape = new PolygonShape();
+            shape.set(vertices);
+            body.createFixture(shape, Constants.ROW_DENSITY);
+            shape.dispose();
+        }
+        PowerUpUserData userData = new PowerUpUserData(Constants.ROW_WIDTH, Constants.ROW_HEIGHT, powerUpType.getTextureName(), powerUpType.getPowerUpClass());
+        body.setUserData(userData);
+        return body;
+
     }
 
     public static Body createSideBoundsBody(World world){

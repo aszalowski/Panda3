@@ -1,10 +1,8 @@
 package com.mygdx.panda3.box2d;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.panda3.enums.UserDataType;
 import com.mygdx.panda3.utils.Constants;
 
-import sun.awt.geom.AreaOp;
 
 public class PandaUserData extends UserData {
 
